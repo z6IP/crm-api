@@ -1,0 +1,16 @@
+package com.crm.mapper;
+
+import com.crm.entity.Customer;
+import com.github.yulichang.base.MPJBaseMapper;
+
+/**
+ * <p>
+ * Mapper 接口
+ * </p>
+ *
+ * @author crm
+ * @since 2025-10-12
+ */
+public interface CustomerMapper extends MPJBaseMapper<Customer> {
+
+}
