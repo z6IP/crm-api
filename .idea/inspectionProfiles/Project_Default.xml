@@ -29,7 +29,7 @@
     <inspection_tool class="AlibabaBooleanPropertyShouldNotStartWithIs" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AlibabaClassCastExceptionWithSubListToArrayList" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AlibabaClassCastExceptionWithToArray" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="AlibabaClassMustHaveAuthor" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="AlibabaClassMustHaveAuthor" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
     <inspection_tool class="AlibabaClassNamingShouldBeCamel" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AlibabaCollectionInitShouldAssignCapacity" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AlibabaCommentsMustBeJavadocFormat" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -63,6 +63,9 @@
     <inspection_tool class="AlibabaUnsupportedExceptionWithModifyAsList" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AlibabaUseQuietReferenceNotation" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AlibabaUseRightCaseForDateFormat" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ADDITIONAL_TAGS" value="author:,description:,create:,ClassName,Description,Author,Date:" />
+    </inspection_tool>
     <inspection_tool class="MapOrSetKeyShouldOverrideHashCodeEquals" enabled="true" level="WARNING" enabled_by_default="true" />
   </profile>
 </component>

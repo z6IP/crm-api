@@ -1,95 +1,82 @@
-package com.crm.entity;
+package com.crm.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
-import io.swagger.annotations.ApiModel;
+
+import com.crm.utils.DateUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * <p>
- *
- * </p>
- *
- * @author crm
- * @since 2025-10-12
- */
-@Getter
-@Setter
-@TableName("t_contract")
-@ApiModel(value = "Contract对象", description = "")
-public class Contract {
+ * @description:
+ * @author: zhz
+ * @create: 2025-11-02 08:12
+ **/
+@Data
+public class ContractVO {
 
     @ApiModelProperty("主键id")
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty("合同编号")
-    @TableField("number")
     private String number;
 
     @ApiModelProperty("合同名称")
-    @TableField("name")
     private String name;
 
     @ApiModelProperty("合同金额")
-    @TableField("amount")
     private BigDecimal amount;
 
     @ApiModelProperty("已收到款项")
-    @TableField("received_amount")
     private BigDecimal receivedAmount;
 
     @ApiModelProperty("签约时间")
-    @TableField("sign_time")
+    @NotNull(message = "合同签约时间不能为空")
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private LocalDate signTime;
 
     @ApiModelProperty("客户id")
-    @TableField("customer_id")
     private Integer customerId;
 
+    @ApiModelProperty("客户名称")
+    private String customerName;
+
     @ApiModelProperty("商机id")
-    @TableField("opportunity_id")
     private Integer opportunityId;
 
-    @ApiModelProperty("合同状态 0-初始化，1-审核通过，2-审核未通过")
-    @TableField("status")
+    @Schema(description = "合同状态 0-初始化，1-审核中，2-审核通过，3-审核未通过")
     private Integer status;
 
     @ApiModelProperty("备注")
-    @TableField("remark")
     private String remark;
 
-    @ApiModelProperty("逻辑删除 0-未删除，1-已删除")
-    @TableField(value = "delete_flag", fill = FieldFill.INSERT)
-    @TableLogic
-    private Integer deleteFlag;
-
     @ApiModelProperty("创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty("更新时间")
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty("创建人id")
-    @TableField("creater_id")
     private Integer createrId;
 
     @ApiModelProperty("签约人id")
-    @TableField("owner_id")
     private Integer ownerId;
 
     @ApiModelProperty("合同开始时间")
-    @TableField("start_time")
+    @NotNull(message = "合同开始时间不能为空")
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private LocalDate startTime;
 
     @ApiModelProperty("合同结束时间")
-    @TableField("end_time")
+    @NotNull(message = "合同结束时间不能为空")
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private LocalDate endTime;
+
+    List<ProductVO> products;
 }

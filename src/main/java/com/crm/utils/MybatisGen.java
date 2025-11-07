@@ -32,7 +32,7 @@ public class MybatisGen {
         outputFileStringMap.put(OutputFile.entity,path +  "entity");
         outputFileStringMap.put(OutputFile.mapper,path +  "mapper");
         outputFileStringMap.put(OutputFile.xml, pathXml);
-        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/db_crm", "root", "Soft_root")
+        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/db_crm", "root", "root")
                 .globalConfig(builder -> {
                     builder.author("crm").enableSwagger(); // 设置作者// 开启 swagger 模式
 
@@ -43,28 +43,26 @@ public class MybatisGen {
                             .pathInfo(outputFileStringMap);
                          // 设置mapperXml生成路径
                 })
-                .strategyConfig((scanner, builder) -> {
-                    builder.addInclude(getTables(scanner.apply("请输入表名，多个英文逗号分隔？所有输入 all"))) // 设置需要生成的表名
-                            .addTablePrefix("t_","sys_")
-                            .entityBuilder()
-                            .disableSerialVersionUID()
-                            .enableLombok()
-                            .enableTableFieldAnnotation()
-                            .logicDeleteColumnName("delete_flag")
-                            .logicDeletePropertyName("delete_flag")
-                            .naming(NamingStrategy.underline_to_camel)
-                            .addTableFills(new Column("delete_flag", FieldFill.INSERT))
-                            .addTableFills(new Column("create_time", FieldFill.INSERT))
-                            .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE))
-                            .idType(IdType.AUTO)
-                            .serviceBuilder()
-                            .formatServiceFileName("%sService")
-                            .formatServiceImplFileName("%sServiceImpl")
-                            .mapperBuilder()
-                            .enableBaseResultMap()
-                            .controllerBuilder()
-                            .enableRestStyle();
-                })
+                .strategyConfig((scanner, builder) -> builder.addInclude(getTables(scanner.apply("请输入表名，多个英文逗号分隔？所有输入 all")))
+                        .addTablePrefix("t_","sys_")
+                        .entityBuilder()
+                        .disableSerialVersionUID()
+                        .enableLombok()
+                        .enableTableFieldAnnotation()
+                        .logicDeleteColumnName("delete_flag")
+                        .logicDeletePropertyName("delete_flag")
+                        .naming(NamingStrategy.underline_to_camel)
+                        .addTableFills(new Column("delete_flag", FieldFill.INSERT))
+                        .addTableFills(new Column("create_time", FieldFill.INSERT))
+                        .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE))
+                        .idType(IdType.AUTO)
+                        .serviceBuilder()
+                        .formatServiceFileName("%sService")
+                        .formatServiceImplFileName("%sServiceImpl")
+                        .mapperBuilder()
+                        .enableBaseResultMap()
+                        .controllerBuilder()
+                        .enableRestStyle())
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();
 
