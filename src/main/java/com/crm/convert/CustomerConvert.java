@@ -1,6 +1,7 @@
 package com.crm.convert;
 
 import com.crm.entity.Customer;
+import com.crm.entity.Lead;
 import com.crm.vo.CustomerVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -22,4 +23,5 @@ public interface CustomerConvert {
      */
     Customer convert(CustomerVO customerVO);
 
+    Customer leadConvert(Lead lead);
 }
