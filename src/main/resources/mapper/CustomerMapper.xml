@@ -4,25 +4,61 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.crm.entity.Customer">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="phone" property="phone" />
-        <result column="email" property="email" />
-        <result column="level" property="level" />
-        <result column="source" property="source" />
-        <result column="address" property="address" />
-        <result column="follow_status" property="followStatus" />
-        <result column="next_follow_status" property="nextFollowStatus" />
-        <result column="remark" property="remark" />
-        <result column="creater_id" property="createrId" />
-        <result column="is_public" property="isPublic" />
-        <result column="owner_id" property="ownerId" />
-        <result column="is_key_decision_maker" property="isKeyDecisionMaker" />
-        <result column="gender" property="gender" />
-        <result column="deal_count" property="dealCount" />
-        <result column="delete_flag" property="deleteFlag" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="level" property="level"/>
+        <result column="source" property="source"/>
+        <result column="address" property="address"/>
+        <result column="follow_status" property="followStatus"/>
+        <result column="next_follow_status" property="nextFollowStatus"/>
+        <result column="remark" property="remark"/>
+        <result column="creater_id" property="createrId"/>
+        <result column="is_public" property="isPublic"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="is_key_decision_maker" property="isKeyDecisionMaker"/>
+        <result column="gender" property="gender"/>
+        <result column="deal_count" property="dealCount"/>
+        <result column="delete_flag" property="deleteFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
+
+    <select id="getTradeStatistics" resultType="com.crm.vo.CustomerTrendVO">
+        select any_value(count(*)) as tradeCount,
+        any_value(date_format(create_time,'%H:%i')) as tradeTime
+        from t_customer
+        where delete_flag = 0
+        <if test="timeRange[0] !=null and timeRange[1] !=null">
+            and create_time between #{timeRange[0]} and #{timeRange[1]}
+        </if>
+        group by tradeTime;
+    </select>
+
+
+    <select id="getTradeStatisticsByDay" resultType="com.crm.vo.CustomerTrendVO">
+        select any_value(count(*)) as tradeCount,
+        any_value(date_format(create_time,${timeFormat})) as tradeTime
+        from t_customer
+        where delete_flag = 0
+        <if test="timeRange[0] !=null and timeRange[1] !=null">
+            and create_time between #{timeRange[0]} and #{timeRange[1]}
+        </if>
+        group by tradeTime;
+    </select>
+
+    <select id="getTradeStatisticsByWeek" resultType="com.crm.vo.CustomerTrendVO">
+        select any_value(count(*)) as tradeCount,
+        floor((datediff(create_time,date_format(create_time,'%Y-%01-%01')) +
+        weekday(date_format(create_time,'%Y-%01-%01'))-1)/7)+1 as tradeTime
+        from t_customer
+        where delete_flag = 0
+        <if test="timeRange[0] !=null and timeRange[1] != null">
+            and create_time between #{timeRange[0]} and #{timeRange[1]}
+            and create_time >= #{timeRange[0]}
+        </if>
+        group by tradeTime;
+    </select>
 
 </mapper>
