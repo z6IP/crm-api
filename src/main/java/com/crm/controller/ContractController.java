@@ -4,10 +4,12 @@ import com.crm.common.aop.Log;
 import com.crm.common.result.PageResult;
 import com.crm.common.result.Result;
 import com.crm.enums.BusinessType;
+import com.crm.query.ApprovalQuery;
+import com.crm.query.ApprovalTrendQuery;
 import com.crm.query.ContractQuery;
+import com.crm.query.IdQuery;
 import com.crm.service.ContractService;
 import com.crm.vo.ContractVO;
-import com.crm.vo.CustomerVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.rmi.ServerException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -46,5 +50,28 @@ public class ContractController {
     public Result saveOrUpdate(@RequestBody @Validated ContractVO customerVO) throws ServerException {
         contractService.saveOrUpdate(customerVO);
         return Result.ok();
+    }
+
+    @PostMapping("startApproval")
+    @Operation(summary = "启动合同审批")
+    @Log(title = "启动合同审批", businessType = BusinessType.INSERT_OR_UPDATE)
+    public Result startApproval(@RequestBody @Validated IdQuery idQuery) {
+        contractService.startApproval(idQuery);
+        return Result.ok();
+    }
+
+    @PostMapping("/approvalContract")
+    @Operation(summary = "合同审批")
+    @Log(title = "合同审批", businessType = BusinessType.INSERT_OR_UPDATE)
+    public Result approvalContract(@RequestBody @Validated ApprovalQuery query) {
+        contractService.approvalContract(query);
+        return Result.ok();
+    }
+
+    @PostMapping("getApprovalTrendData")
+    @Operation(summary = "审核变化趋势数据")
+    @Log(title = "审核变化趋势数据", businessType = BusinessType.SELECT)
+    public Result<Map<String, List>> getApprovalTrendData(@RequestBody ApprovalTrendQuery query) {
+        return Result.ok(contractService.getApprovalTrendData(query));
     }
 }
